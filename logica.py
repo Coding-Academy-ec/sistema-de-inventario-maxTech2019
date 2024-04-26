@@ -16,19 +16,17 @@ def agregar_producto(nombre, precio, existencias):
 def actualizar_existencias(id_producto, nuevas_existencias):
     # Función para actualizar las existencias de un producto en la base de datos
     conn = conectar()
-    cursor = conn.cursor()
+    # Crear un cursor para ejecutar consultas
     cursor.execute("UPDATE productos SET existencias = ? WHERE id = ?", (nuevas_existencias, id_producto))
-    conn.commit()
+    # Confirmar los cambios
     conn.close()
 
 def registrar_venta(id_producto, cantidad_vendida):
     # Función para registrar una venta y actualizar las existencias en la base de datos
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute("SELECT existencias FROM productos WHERE id = ?", (id_producto,))
-    existencias_actuales = cursor.fetchone()[0]
-    nuevas_existencias = existencias_actuales - cantidad_vendida
-    actualizar_existencias(id_producto, nuevas_existencias)
+    cursor.execute("UPDATE productos SET existencias = existencias - ? WHERE id = ?", (cantidad_vendida, id_producto))
+    conn.commit()
     conn.close()
 
 def generar_informe():
