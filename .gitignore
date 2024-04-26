@@ -1,0 +1,6 @@
+# Archivos y directorios generados por Python
+__pycache__/
+*.pyc
+
+# Archivos de base de datos
+*.db
